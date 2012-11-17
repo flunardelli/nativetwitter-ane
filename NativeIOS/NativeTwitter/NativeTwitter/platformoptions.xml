@@ -1,0 +1,11 @@
+<platform xmlns="http://ns.adobe.com/air/extension/3.4"> 
+    <description >NativeTwitter</description> 
+    <copyright>2012 PalDeveloppers</copyright> 
+	<sdkVersion>5.0</sdkVersion>
+    <linkerOptions> 
+		<option>-framework Twitter</option> <!-- Should this be weak_framework? -->
+		<option>-framework Accounts</option> 
+		<option>-liconv</option> <!-- Needed? -->
+    </linkerOptions> 
+</platform>
+

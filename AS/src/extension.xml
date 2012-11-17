@@ -1,0 +1,16 @@
+<extension xmlns="http://ns.adobe.com/air/extension/3.4">
+  <id>com.palDeveloppers.ane.NativeTwitter</id>
+  <versionNumber>1</versionNumber>
+  <platforms>
+    <platform name="iPhone-ARM">
+            <applicationDeployment>
+                <nativeLibrary>libNativeTwitter.a</nativeLibrary>
+                <initializer>NativeTwitterExtInitializer</initializer>
+                <finalizer>NativeTwitterExtFinalizer</finalizer>
+            </applicationDeployment>
+    </platform>
+    <platform name="default"> 
+        <applicationDeployment/> 
+    </platform> 
+  </platforms>
+</extension>
