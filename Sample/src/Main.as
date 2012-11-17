@@ -138,7 +138,7 @@ package {
         }
         
         private function stage_resizeHandler(e:Event):void {
-            logField.viewPort = new Rectangle(0, 340, stage.stageWidth - 20, 139);
+            logField.viewPort = new Rectangle(0, 340, stage.stageWidth - 2, 139);
         }
         
         private function isSetupButton_clickHandler(e:MouseEvent):void {
