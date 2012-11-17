@@ -1,11 +1,11 @@
 package {
     import com.palDeveloppers.ane.NativeTwitter;
     import com.palDeveloppers.ane.TweetCompositionResult;
-	import flash.desktop.NativeApplication;
-	import flash.events.Event;
-	import flash.display.Sprite;
-	import flash.display.StageAlign;
-	import flash.display.StageScaleMode;
+    import flash.desktop.NativeApplication;
+    import flash.events.Event;
+    import flash.display.Sprite;
+    import flash.display.StageAlign;
+    import flash.display.StageScaleMode;
     import flash.events.MouseEvent;
     import flash.geom.Rectangle;
     import flash.text.StageText;
@@ -13,15 +13,15 @@ package {
     import flash.text.TextField;
     import flash.text.TextFieldAutoSize;
     import flash.text.TextFormat;
-	import flash.ui.Multitouch;
-	import flash.ui.MultitouchInputMode;
-	
-	/**
-	 * ...
-	 * @author JFM/HBE/DPP
-	 */
-	public class Main extends Sprite {
-		
+    import flash.ui.Multitouch;
+    import flash.ui.MultitouchInputMode;
+
+    /**
+     * ...
+     * @author JFM/HBE/DPP
+     */
+    public class Main extends Sprite {
+        
         private var logField:StageText;
         
         private var tweetMessage:StageText;
@@ -31,16 +31,16 @@ package {
         private var requestResource:StageText;
         private var requestParams:StageText;
         
-		public function Main():void {
-			stage.scaleMode = StageScaleMode.NO_SCALE;
-			stage.align = StageAlign.TOP_LEFT;
-			stage.addEventListener(Event.RESIZE, stage_resizeHandler);
+        public function Main():void {
+            stage.scaleMode = StageScaleMode.NO_SCALE;
+            stage.align = StageAlign.TOP_LEFT;
+            stage.addEventListener(Event.RESIZE, stage_resizeHandler);
             
-			// touch or gesture?
-			Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
-			
-			// entry point
-			
+            // touch or gesture?
+            Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
+            
+            // entry point
+            
             logField = new StageText(new StageTextInitOptions(true));
             logField.editable = false;
             logField.stage = this.stage;
@@ -50,46 +50,42 @@ package {
             graphics.drawRect(0, 340, stage.stageWidth - 20, 139);
             
             if (NativeTwitter.isSupported()) {
-                NativeTwitter.instance.accessDenied = accessDenied;
-                NativeTwitter.instance.nonexistentAccount = nonexistentAccount;
-                NativeTwitter.instance.twRequestResult = twRequestResult;
-                NativeTwitter.instance.tweetComposed = tweetComposed;
-                NativeTwitter.instance.homeTimelineRequested = homeTimelineGot;
-                NativeTwitter.instance.twitterUsernamesGot = userNamesGot;
-                NativeTwitter.instance.mentionsRequested = mentionsRequested;
-                
                 graphics.beginFill(0x55FFFF);
+                
+                var isSetupButton:Sprite = getButton("Is Setup?");
+                isSetupButton.addEventListener(MouseEvent.CLICK, isSetupButton_clickHandler);
+                
+                var getTwitterUsernameButton:Sprite = getButton("Get Usernames");
+                getTwitterUsernameButton.addEventListener(MouseEvent.CLICK, getTwitterUsernameButton_clickHandler);
+                getTwitterUsernameButton.x = 170;
                 
                 var tweetButton:Sprite = getButton("Compose tweet");
                 tweetButton.addEventListener(MouseEvent.CLICK, tweetButton_clickHandler);
+                tweetButton.y = 85;
                 
-                graphics.drawRect(170, 0, 150, 20);
+                graphics.drawRect(170, 85, 150, 20);
                 
                 tweetMessage = new StageText();
                 tweetMessage.editable = true;
                 tweetMessage.text = "Hello from NativeTwitter ANE";
                 tweetMessage.stage = this.stage;
-                tweetMessage.viewPort = new Rectangle(170, 0, 150, 20);
+                tweetMessage.viewPort = new Rectangle(170, 85, 150, 20);
                 
-                graphics.drawRect(170, 25, 150, 20);
+                graphics.drawRect(170, 110, 150, 20);
                 
                 tweetUrl = new StageText();
                 tweetUrl.editable = true;
                 tweetUrl.text = "http://www.paldeveloppers.com";
                 tweetUrl.stage = this.stage;
-                tweetUrl.viewPort = new Rectangle(170, 25, 150, 20);
+                tweetUrl.viewPort = new Rectangle(170, 110, 150, 20);
                 
-                graphics.drawRect(170, 50, 150, 20);
+                graphics.drawRect(170, 135, 150, 20);
                 
                 tweetImg = new StageText();
                 tweetImg.editable = true;
                 tweetImg.text = "https://ma.twimg.com/profile_images/2366553916/7mknc11v28rx6od4dode_normal.jpeg";
                 tweetImg.stage = this.stage;
-                tweetImg.viewPort = new Rectangle(170, 50, 150, 20);
-                
-                var getTwitterUsernameButton:Sprite = getButton("Get Usernames");
-                getTwitterUsernameButton.addEventListener(MouseEvent.CLICK, getTwitterUsernameButton_clickHandler);
-                getTwitterUsernameButton.y = 85;
+                tweetImg.viewPort = new Rectangle(170, 135, 150, 20);
                 
                 var getPublicTimelineButton:Sprite = getButton("Get Home Timeline");
                 getPublicTimelineButton.addEventListener(MouseEvent.CLICK, getHomeTimelineButton_clickHandler);
@@ -122,18 +118,31 @@ package {
                 
                 graphics.endFill();
                 
+                addChild(isSetupButton);
                 addChild(tweetButton);
                 addChild(getTwitterUsernameButton);
                 addChild(getPublicTimelineButton);
                 addChild(getMentionsButton);
                 addChild(twRequestButton);
+                
+                NativeTwitter.instance.accessDenied = accessDenied;
+                NativeTwitter.instance.nonexistentAccount = nonexistentAccount;
+                NativeTwitter.instance.twRequestResult = twRequestResult;
+                NativeTwitter.instance.tweetComposed = tweetComposed;
+                NativeTwitter.instance.homeTimelineRequested = homeTimelineGot;
+                NativeTwitter.instance.twitterUsernamesGot = userNamesGot;
+                NativeTwitter.instance.mentionsRequested = mentionsRequested;
             } else {
                 log("NativeTwitter not supported by this platform");
             }
-		}
+        }
         
         private function stage_resizeHandler(e:Event):void {
             logField.viewPort = new Rectangle(0, 340, stage.stageWidth - 20, 139);
+        }
+        
+        private function isSetupButton_clickHandler(e:MouseEvent):void {
+            log("isSetup: " + NativeTwitter.instance.isTwitterSetup());
         }
         
         private function twRequestButton_clickHandler(e:MouseEvent):void {
@@ -233,11 +242,11 @@ package {
             
             return s;
         }
-		
+        
         private function log(msg:String):void {
             logField.text = msg + "\n" + logField.text;
         }
         
-	}
-	
+    }
+
 }

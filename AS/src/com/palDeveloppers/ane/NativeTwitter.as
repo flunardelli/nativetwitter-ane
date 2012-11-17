@@ -135,7 +135,7 @@ package com.palDeveloppers.ane
 		
 		public function isTwitterSetup():Boolean
 		{
-			return extCtx.call("ìsTwitterSetup");
+			return extCtx.call("isTwitterSetup");
 		}
 		
 		public function composeTweet(messageText:String = null, imageAttach:String = null, urlAttach:String = null):void

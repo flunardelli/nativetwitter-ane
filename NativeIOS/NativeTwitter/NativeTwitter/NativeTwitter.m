@@ -195,13 +195,16 @@ void CreateAndCallTWRequest(FREContext context, NSString *resourceName, NSString
     
     NSDictionary *params = nil;
     if (paramsJSON != nil) {
-        NSError *jsonError;
+        NSError *jsonError = nil;
         params = [NSJSONSerialization JSONObjectWithData:[paramsJSON dataUsingEncoding:NSUTF8StringEncoding]
                                                  options:NSJSONReadingMutableLeaves
                                                  error:&jsonError];
         
-        if (jsonError)
-            NSLog(@"JSON Error: %@",[jsonError  localizedDescription]);
+        if (jsonError) {
+            NSLog(@"JSON Error: %@", [jsonError localizedDescription]);
+            FREDispatchStatusEventAsync(context, errorCallback, (uint8_t *)"-1");
+            return;
+        }
     }
     
     TWRequestMethod method;
