@@ -37,7 +37,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "276"
          endingLineNumber = "276"
-         landmarkName = "DEFINE_ANE_FUNCTION()"
+         landmarkName = "NativeTwitterExtInitializer()"
          landmarkType = "7">
       </FileBreakpoint>
    </FileBreakpoints>

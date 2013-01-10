@@ -34,13 +34,13 @@ void NativeTwitterExtFinalizer(void* extData);
 /* ContextInitializer()
  * The context initializer is called when the runtime creates the extension context instance.
 */
-void ContextInitializer(void* extData, const uint8_t* ctxType, FREContext ctx, uint32_t* numFunctionsToTest, const FRENamedFunction** functionsToSet);
+void NativeTwitterContextInitializer(void* extData, const uint8_t* ctxType, FREContext ctx, uint32_t* numFunctionsToTest, const FRENamedFunction** functionsToSet);
 
 /* ContextFinalizer()
  * The context finalizer is called when the extension's ActionScript code
  * calls the ExtensionContext instance's dispose() method.
  * If the AIR runtime garbage collector disposes of the ExtensionContext instance, the runtime also calls ContextFinalizer().
 */
-void ContextFinalizer(FREContext ctx);
+void NativeTwitterContextFinalizer(FREContext ctx);
 
 

@@ -90,15 +90,10 @@ DEFINE_ANE_FUNCTION(ComposeTweet)
     else{
         
         [tweetViewController setCompletionHandler:^(TWTweetComposeViewControllerResult result) {
-            switch (result) {
-                case TWTweetComposeViewControllerResultDone:
-                    FREDispatchStatusEventAsync(context, (uint8_t*)"tweetComposed", (uint8_t*)"0");
-                    break;
-                case TWTweetComposeViewControllerResultCancelled:
-                default:
-                    FREDispatchStatusEventAsync(context, (uint8_t*)"tweetComposed", (uint8_t*)"8");
-                    break;
-            }
+            if (result == TWTweetComposeViewControllerResultDone)
+                FREDispatchStatusEventAsync(context, (uint8_t*)"tweetComposed", (uint8_t*)"0");
+            else
+                FREDispatchStatusEventAsync(context, (uint8_t*)"tweetComposed", (uint8_t*)"8");
             
             [[[[UIApplication sharedApplication] keyWindow] rootViewController] dismissViewControllerAnimated:YES completion:NULL];
             
@@ -271,8 +266,8 @@ void CreateAndCallTWRequest(FREContext context, NSString *resourceName, NSString
 void NativeTwitterExtInitializer(void** extDataToSet, FREContextInitializer* ctxInitializerToSet, FREContextFinalizer* ctxFinalizerToSet) 
 {
     *extDataToSet = NULL;
-    *ctxInitializerToSet = &ContextInitializer;
-    *ctxFinalizerToSet = &ContextFinalizer;
+    *ctxInitializerToSet = &NativeTwitterContextInitializer;
+    *ctxFinalizerToSet = &NativeTwitterContextFinalizer;
 }
 
 /* NativeTwitterExtFinalizer()
@@ -289,7 +284,7 @@ void NativeTwitterExtFinalizer(void* extData)
 /* ContextInitializer()
  * The context initializer is called when the runtime creates the extension context instance.
  */
-void ContextInitializer(void* extData, const uint8_t* ctxType, FREContext ctx, uint32_t* numFunctionsToTest, const FRENamedFunction** functionsToSet)
+void NativeTwitterContextInitializer(void* extData, const uint8_t* ctxType, FREContext ctx, uint32_t* numFunctionsToTest, const FRENamedFunction** functionsToSet)
 {
     // The following code describes the functions that are exposed by this native extension to the ActionScript code.
     *numFunctionsToTest = 7;
@@ -333,7 +328,7 @@ void ContextInitializer(void* extData, const uint8_t* ctxType, FREContext ctx, u
  * calls the ExtensionContext instance's dispose() method.
  * If the AIR runtime garbage collector disposes of the ExtensionContext instance, the runtime also calls ContextFinalizer().
  */
-void ContextFinalizer(FREContext ctx) 
+void NativeTwitterContextFinalizer(FREContext ctx)
 {
     // Nothing to clean up.
     return;
